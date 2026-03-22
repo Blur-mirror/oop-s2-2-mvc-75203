@@ -12,7 +12,6 @@ public static class DbSeeder
         var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-        await context.Database.MigrateAsync();
 
         // Roles
         string[] roles = ["Admin", "Inspector", "Viewer"];
@@ -109,14 +108,40 @@ public static class DbSeeder
     }
 
     private static async Task CreateUser(
-        UserManager<IdentityUser> userManager,
-        string email, string password, string role)
+      UserManager<IdentityUser> userManager,
+      string email, string password, string role)
     {
-        if (await userManager.FindByEmailAsync(email) is not null) return;
+        Console.WriteLine($"Creating user: {email}");
 
-        var user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+        var existing = await userManager.FindByEmailAsync(email);
+        if (existing is not null)
+        {
+            Console.WriteLine($"  -> already exists, skipping");
+            return;
+        }
+
+        var user = new IdentityUser
+        {
+            UserName = email,
+            Email = email,
+            EmailConfirmed = true
+        };
+
         var result = await userManager.CreateAsync(user, password);
-        if (result.Succeeded)
-            await userManager.AddToRoleAsync(user, role);
+        Console.WriteLine($"  -> CreateAsync result: {result.Succeeded}");
+        if (!result.Succeeded)
+        {
+            foreach (var e in result.Errors)
+                Console.WriteLine($"  -> ERROR: {e.Code} - {e.Description}");
+            return;
+        }
+
+        var roleResult = await userManager.AddToRoleAsync(user, role);
+        Console.WriteLine($"  -> AddToRole({role}) result: {roleResult.Succeeded}");
+        if (!roleResult.Succeeded)
+        {
+            foreach (var e in roleResult.Errors)
+                Console.WriteLine($"  -> ROLE ERROR: {e.Code} - {e.Description}");
+        }
     }
 }

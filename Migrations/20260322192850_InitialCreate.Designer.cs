@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodSafetyTracker.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260322185405_InitialCreate")]
+    [Migration("20260322192850_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

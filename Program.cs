@@ -4,7 +4,6 @@ using FoodSafetyTracker.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-// Bootstrap logger — catches startup errors before full config loads
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext()
@@ -17,7 +16,6 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    // Full Serilog config — reads from appsettings.json
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services)
@@ -33,7 +31,7 @@ try
     );
 
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
@@ -43,10 +41,20 @@ try
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
     builder.Services.AddControllersWithViews();
+    builder.Services.AddRazorPages();
 
     var app = builder.Build();
 
-    app.UseSerilogRequestLogging(); // logs every HTTP request at Info level
+    // ── Migrate + Seed ────────────────────────────────────────────
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await db.Database.MigrateAsync();
+        await DbSeeder.SeedAsync(scope.ServiceProvider);
+    }
+
+    // ── Middleware pipeline ───────────────────────────────────────
+    app.UseSerilogRequestLogging();
 
     if (!app.Environment.IsDevelopment())
     {
@@ -57,19 +65,14 @@ try
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseRouting();
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
-    app.Run();
-
-    // Seed database
-    using (var scope = app.Services.CreateScope())
-    {
-        await DbSeeder.SeedAsync(scope.ServiceProvider);
-    }
+    app.MapRazorPages();
 
     app.Run();
 }

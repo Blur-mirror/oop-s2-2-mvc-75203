@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/velvet_logic/Desktop/Coding/C#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/FollowUp/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9sbG93VXAvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -84,6 +88,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Shared/_ValidationScriptsPartial.cshtml]
