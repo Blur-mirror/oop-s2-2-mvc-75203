@@ -16,3 +16,19 @@ Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
    at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
    at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
    at Program.<Main>$(String[] args) in /home/velvet_logic/Desktop/Coding/C#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Program.cs:line 47
+2026-03-22 19:01:04 [INF] User profile is available. Using '/home/velvet_logic/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest. { EventId: { Id: 62, Name: "UsingProfileAsKeyRepository" }, SourceContext: "Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager", EnvironmentName: "Development", ThreadId: 1 }
+2026-03-22 19:01:04 [INF] Now listening on: http://localhost:5101 { EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime", EnvironmentName: "Development", ThreadId: 1 }
+2026-03-22 19:01:04 [INF] Application started. Press Ctrl+C to shut down. { SourceContext: "Microsoft.Hosting.Lifetime", EnvironmentName: "Development", ThreadId: 1 }
+2026-03-22 19:01:04 [INF] Hosting environment: Development { SourceContext: "Microsoft.Hosting.Lifetime", EnvironmentName: "Development", ThreadId: 1 }
+2026-03-22 19:01:04 [INF] Content root path: /home/velvet_logic/Desktop/Coding/C#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker { SourceContext: "Microsoft.Hosting.Lifetime", EnvironmentName: "Development", ThreadId: 1 }
+2026-03-22 19:01:10 [INF] Application is shutting down... { SourceContext: "Microsoft.Hosting.Lifetime", EnvironmentName: "Development", ThreadId: 11 }
+2026-03-22 19:01:10 [FTL] Application terminated unexpectedly { EnvironmentName: "Development", ThreadId: 1 }
+System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'IServiceProvider'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ThrowHelper.ThrowObjectDisposedException()
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.CreateScope(IServiceProvider provider)
+   at Program.<Main>$(String[] args) in /home/velvet_logic/Desktop/Coding/C#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Program.cs:line 69

@@ -64,6 +64,14 @@ try
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
     app.Run();
+
+    // Seed database
+    using (var scope = app.Services.CreateScope())
+    {
+        await DbSeeder.SeedAsync(scope.ServiceProvider);
+    }
+
+    app.Run();
 }
 catch (Exception ex)
 {
