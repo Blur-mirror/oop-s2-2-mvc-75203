@@ -1,0 +1,37 @@
+@model FoodSafetyTracker.Models.FollowUp
+@{
+    ViewData["Title"] = "Edit Follow-Up";
+}
+
+<h2>Edit Follow-Up</h2>
+<p class="text-muted">
+    Inspection at <strong>@Model.Inspection.Premises.Name</strong>
+    on <strong>@Model.Inspection.InspectionDate.ToString("dd MMM yyyy")</strong>
+</p>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="InspectionId" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label"></label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<FoodSafetyTracker.Models.FollowUpStatus>()"
+                class="form-select"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ClosedDate" class="form-label">Closed Date <small class="text-muted">(required if
+            closing)</small></label>
+            <input asp-for="ClosedDate" type="date" class="form-control" />
+            <span asp-validation-for="ClosedDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Inspection" asp-action="Details" asp-route-id="@Model.InspectionId"
+           class="btn btn-secondary">Cancel</a>
+    </form>

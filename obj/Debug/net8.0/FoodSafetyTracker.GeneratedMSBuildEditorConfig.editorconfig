@@ -18,12 +18,48 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/velvet_logic/Desktop/Coding/C#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/FollowUp/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9sbG93VXAvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/FollowUp/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9sbG93VXAvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/FollowUp/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9sbG93VXAvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/FollowUp/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9sbG93VXAvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Inspection/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5zcGVjdGlvbi9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Inspection/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5zcGVjdGlvbi9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Inspection/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5zcGVjdGlvbi9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Inspection/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5zcGVjdGlvbi9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Inspection/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5zcGVjdGlvbi9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/velvet_logic/Desktop/Coding/C\#/MVC/oop-s2-2-mvc-75203/FoodSafetyTracker/Views/Premises/Create.cshtml]

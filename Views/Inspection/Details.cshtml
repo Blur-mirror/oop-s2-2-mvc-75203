@@ -1,0 +1,68 @@
+@model FoodSafetyTracker.Models.Inspection
+@{
+    ViewData["Title"] = "Inspection Details";
+}
+
+<h2>Inspection — @Model.Premises.Name</h2>
+<p><strong>Date:</strong> @Model.InspectionDate.ToString("dd MMM yyyy")</p>
+<p><strong>Score:</strong> @Model.Score / 100</p>
+<p>
+    <strong>Outcome:</strong>
+    <span class="badge bg-@(Model.Outcome == FoodSafetyTracker.Models.InspectionOutcome.Pass ? "success" : "danger")">
+        @Model.Outcome
+    </span>
+</p>
+<p><strong>Notes:</strong> @Model.Notes</p>
+
+<h4 class="mt-4">Follow-Ups</h4>
+@if (User.IsInRole("Admin") || User.IsInRole("Inspector"))
+{
+    <a asp-controller="FollowUp" asp-action="Create" asp-route-inspectionId="@Model.Id"
+       class="btn btn-sm btn-primary mb-2">+ Add Follow-Up</a>
+}
+
+@if (!Model.FollowUps.Any())
+{
+    <p>No follow-ups recorded.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Closed Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model.FollowUps.OrderBy(x => x.DueDate))
+            {
+                <tr>
+                    <td>@f.DueDate.ToString("dd MMM yyyy")</td>
+                    <td>
+                        <span
+                            class="badge bg-@(f.Status == FoodSafetyTracker.Models.FollowUpStatus.Closed ? "success" : (f.DueDate < DateTime.Today ? "danger" : "warning"))">
+                            @f.Status@(f.Status == FoodSafetyTracker.Models.FollowUpStatus.Open && f.DueDate < DateTime.Today ?
+                            " (Overdue)" : "")
+                        </span>
+                    </td>
+                    <td>@(f.ClosedDate.HasValue ? f.ClosedDate.Value.ToString("dd MMM yyyy") : "—")</td>
+                    <td>
+                        <a asp-controller="FollowUp" asp-action="Details" asp-route-id="@f.Id"
+                           class="btn btn-sm btn-info">View</a>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Inspector"))
+                        {
+                            <a asp-controller="FollowUp" asp-action="Edit" asp-route-id="@f.Id"
+                               class="btn btn-sm btn-warning">Edit</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Premises" asp-action="Details" asp-route-id="@Model.PremisesId" class="btn btn-secondary mt-2">Back
+    to Premises</a>

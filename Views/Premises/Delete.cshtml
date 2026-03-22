@@ -1,0 +1,22 @@
+@model FoodSafetyTracker.Models.Premises
+@{
+    ViewData["Title"] = "Delete Premises";
+}
+
+<h2>Delete Premises</h2>
+<p>Are you sure you want to delete <strong>@Model.Name</strong>?</p>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+```
+
+---
+
+Run `dotnet build` to confirm it compiles clean, then we'll do the Inspection controller next.
+
+**Good commit message:**
+```
+feat: add Premises controller and views with role-based access
