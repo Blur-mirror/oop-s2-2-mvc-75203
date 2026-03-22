@@ -1,0 +1,16 @@
+@model FoodSafetyTracker.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h2>Something went wrong!!</h2>
+        <p>@Model.Message</p>
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-muted small">Request ID: <code>@Model.RequestId</code></p>
+        }
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go Home</a>
+</div>

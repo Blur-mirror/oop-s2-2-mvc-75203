@@ -45,7 +45,7 @@ try
 
     var app = builder.Build();
 
-    // ── Migrate + Seed ────────────────────────────────────────────
+    // Migrate + Seed
     using (var scope = app.Services.CreateScope())
     {
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -53,10 +53,14 @@ try
         await DbSeeder.SeedAsync(scope.ServiceProvider);
     }
 
-    // ── Middleware pipeline ───────────────────────────────────────
+    // Middleware pipeline
     app.UseSerilogRequestLogging();
 
-    if (!app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
     {
         app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
