@@ -1,4 +1,5 @@
 namespace FoodSafetyTracker.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 public enum FollowUpStatus { Open, Closed }
 
@@ -10,6 +11,7 @@ public class FollowUp
     public FollowUpStatus Status { get; set; }
     public DateTime? ClosedDate { get; set; }
 
-    // Navigation
+    // FollowUp.cs
+    [ValidateNever]
     public Inspection Inspection { get; set; } = null!;
 }
