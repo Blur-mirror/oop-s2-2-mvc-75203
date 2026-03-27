@@ -1,124 +1,161 @@
 @model FoodSafetyTracker.Models.DashboardViewModel
-@{ ViewData["Title"] = "Dashboard"; }
-
-<h2>Dashboard</h2>
-
-<!-- Filter form -->
-<form method="get" asp-action="Index" class="row g-3 mb-4">
-    <div class="col-auto">
-        <label class="form-label">Town</label>
-        <select name="town" class="form-select">
-            <option value="">All Towns</option>
-            @foreach (var t in Model.Towns)
-            {
-                <option value="@t" selected="@(Model.SelectedTown == t)">@t</option>
-            }
-        </select>
-    </div>
-    <div class="col-auto">
-        <label class="form-label">Risk Rating</label>
-        <select name="riskRating" class="form-select">
-            <option value="">All Ratings</option>
-            @foreach (var r in Enum.GetValues<FoodSafetyTracker.Models.RiskRating>())
-            {
-                <option value="@((int)r)" selected="@(Model.SelectedRiskRating == r)">@r</option>
-            }
-        </select>
-    </div>
-    <div class="col-auto align-self-end">
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
-    </div>
-</form>
-
-@if (!string.IsNullOrEmpty(Model.SelectedTown) || Model.SelectedRiskRating.HasValue)
-{
-    <div class="alert alert-info">
-        Filtering by:
-        @if (!string.IsNullOrEmpty(Model.SelectedTown)) { <strong>Town: @Model.SelectedTown</strong> }
-        @if (Model.SelectedRiskRating.HasValue) { <strong> Risk: @Model.SelectedRiskRating</strong> }
-    </div>
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<!-- Stat cards -->
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card text-white bg-primary">
-            <div class="card-body">
-                <h5 class="card-title">Inspections This Month</h5>
-                <p class="display-4">@Model.InspectionsThisMonth</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-white bg-danger">
-            <div class="card-body">
-                <h5 class="card-title">Failed This Month</h5>
-                <p class="display-4">@Model.FailedInspectionsThisMonth</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card text-white bg-warning">
-            <div class="card-body">
-                <h5 class="card-title">Overdue Open Follow-Ups</h5>
-                <p class="display-4">@Model.OverdueOpenFollowUps</p>
-            </div>
-        </div>
+<div class="window-title" style="margin-top: 20px;">
+    DASHBOARD — @DateTime.Now.ToString("MMMM yyyy").ToUpper()
+    <div class="window-dots">
+        <div class="window-dot">_</div>
+        <div class="window-dot">□</div>
+        <div class="window-dot">×</div>
     </div>
 </div>
 
-<!-- Overdue follow-ups table -->
-<h4>Overdue Follow-Ups</h4>
-@if (!Model.OverdueFollowUpsList.Any())
-{
-    <p class="text-muted">No overdue follow-ups.</p>
-}
-else
-{
-    <table class="table table-bordered table-sm mb-4">
-        <thead class="table-danger">
-            <tr><th>Premises</th><th>Town</th><th>Risk</th><th>Due Date</th><th></th></tr>
-        </thead>
-        <tbody>
-        @foreach (var f in Model.OverdueFollowUpsList)
-        {
-            <tr>
-                <td>@f.Inspection.Premises.Name</td>
-                <td>@f.Inspection.Premises.Town</td>
-                <td>@f.Inspection.Premises.RiskRating</td>
-                <td class="text-danger fw-bold">@f.DueDate.ToString("dd MMM yyyy")</td>
-                <td><a asp-controller="FollowUp" asp-action="Details" asp-route-id="@f.Id" class="btn btn-sm btn-outline-danger">View</a></td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+@* ── Filter Bar ─────────────────────────────────────── *@
+<form method="get" asp-action="Index">
+    <div class="filter-bar">
+        <span class="filter-label">TOWN:</span>
+        <select name="town" class="form-select" style="width:auto; min-width:140px;">
+            <option value="">ALL TOWNS</option>
+            @foreach (var t in Model.Towns)
+            {
+                <option value="@t" selected="@(Model.SelectedTown == t)">
+                    @t.ToUpper()
+                </option>
+            }
+        </select>
 
-<!-- Recent failed inspections table -->
-<h4>Recent Failed Inspections</h4>
-@if (!Model.RecentFailedInspections.Any())
-{
-    <p class="text-muted">No failed inspections.</p>
-}
-else
-{
-    <table class="table table-bordered table-sm">
-        <thead class="table-warning">
-            <tr><th>Premises</th><th>Town</th><th>Risk</th><th>Date</th><th>Score</th><th></th></tr>
-        </thead>
-        <tbody>
-        @foreach (var i in Model.RecentFailedInspections)
+        <span class="filter-label">RISK:</span>
+        <select name="riskRating" class="form-select" style="width:auto; min-width:140px;">
+            <option value="">ALL RATINGS</option>
+            @foreach (FoodSafetyTracker.Models.RiskRating r in
+                                    Enum.GetValues(typeof(FoodSafetyTracker.Models.RiskRating)))
+            {
+                <option value="@((int)r)" selected="@(Model.SelectedRiskRating == r)">
+                    @r.ToString().ToUpper()
+                </option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-primary">APPLY FILTER</button>
+        @if (Model.SelectedTown != null || Model.SelectedRiskRating != null)
         {
-            <tr>
-                <td>@i.Premises.Name</td>
-                <td>@i.Premises.Town</td>
-                <td>@i.Premises.RiskRating</td>
-                <td>@i.InspectionDate.ToString("dd MMM yyyy")</td>
-                <td>@i.Score</td>
-                <td><a asp-controller="Inspection" asp-action="Details" asp-route-id="@i.Id" class="btn btn-sm btn-outline-warning">View</a></td>
-            </tr>
+            <a asp-action="Index" class="btn btn-secondary">CLEAR</a>
         }
-        </tbody>
-    </table>
-}
+    </div>
+</form>
+
+@* ── Stat Cards ─────────────────────────────────────── *@
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-label">Inspections This Month</div>
+        <div class="stat-value">@Model.InspectionsThisMonth.ToString("D2")</div>
+    </div>
+    <div class="stat-card warn">
+        <div class="stat-label">Failed This Month</div>
+        <div class="stat-value">@Model.FailedInspectionsThisMonth.ToString("D2")</div>
+    </div>
+    <div class="stat-card danger">
+        <div class="stat-label">Overdue Follow-Ups</div>
+        <div class="stat-value">@Model.OverdueOpenFollowUps.ToString("D2")</div>
+    </div>
+</div>
+
+@* ── Recent Failed Inspections ───────────────────────── *@
+<div class="gov-panel">
+    <div class="gov-panel-header">RECENT FAILED INSPECTIONS</div>
+    @if (Model.RecentFailedInspections.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>PREMISES</th>
+                    <th>TOWN</th>
+                    <th>DATE</th>
+                    <th>SCORE</th>
+                    <th>RISK</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.RecentFailedInspections)
+                {
+                    var riskClass = i.Premises.RiskRating switch
+                    {
+                        FoodSafetyTracker.Models.RiskRating.High => "badge-high",
+                        FoodSafetyTracker.Models.RiskRating.Medium => "badge-medium",
+                        _ => "badge-low"
+                    };
+                    <tr>
+                        <td>@i.Premises.Name</td>
+                        <td>@i.Premises.Town</td>
+                        <td>@i.InspectionDate.ToString("dd MMM yyyy")</td>
+                        <td>@i.Score / 100</td>
+                        <td><span class="badge @riskClass">@i.Premises.RiskRating.ToString().ToUpper()</span></td>
+                        <td>
+                            <a asp-controller="Inspection" asp-action="Details" asp-route-id="@i.Id"
+                               class="btn btn-secondary btn-sm">VIEW</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p style="color:#444488; font-size:12px; letter-spacing:1px;">NO FAILED INSPECTIONS — SYSTEM CLEAR</p>
+    }
+</div>
+
+@* ── Overdue Follow-Ups ──────────────────────────────── *@
+<div class="gov-panel">
+    <div class="gov-panel-header">OVERDUE FOLLOW-UPS</div>
+    @if (Model.OverdueFollowUpsList.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>PREMISES</th>
+                    <th>INSPECTION DATE</th>
+                    <th>DUE DATE</th>
+                    <th>DAYS OVERDUE</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in Model.OverdueFollowUpsList)
+                {
+                    var daysOverdue = (DateTime.Today - f.DueDate).Days;
+                    <tr>
+                        <td>@f.Inspection.Premises.Name</td>
+                        <td>@f.Inspection.InspectionDate.ToString("dd MMM yyyy")</td>
+                        <td>@f.DueDate.ToString("dd MMM yyyy")</td>
+                        <td><span class="badge badge-overdue">+@daysOverdue DAYS</span></td>
+                        <td>
+                            <a asp-controller="FollowUp" asp-action="Edit" asp-route-id="@f.Id"
+                               class="btn btn-primary btn-sm">RESOLVE</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p style="color:#44ff88; font-size:12px; letter-spacing:1px;">■ NO OVERDUE FOLLOW-UPS — ALL CLEAR</p>
+    }
+</div>
+
+@* ── Status Bar ──────────────────────────────────────── *@
+<div class="status-bar">
+    <span>SYS: ONLINE</span>
+    <span>DB: foodsafety.db</span>
+    <span>USER: @User.Identity?.Name?.ToUpper()</span>
+    @if (Model.SelectedTown != null || Model.SelectedRiskRating != null)
+    {
+        <span>FILTER: @(Model.SelectedTown?.ToUpper() ?? "ALL") / @(Model.SelectedRiskRating?.ToString().ToUpper() ??
+                                "ALL")</span>
+        }
+        <span style="margin-left:auto">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")<span class="cursor"></span></span>
+    </div>
