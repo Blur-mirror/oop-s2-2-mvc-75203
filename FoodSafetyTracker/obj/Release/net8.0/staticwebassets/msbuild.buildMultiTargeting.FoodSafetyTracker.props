@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/FoodSafetyTracker.props" />
-</Project>

@@ -1,2 +1,33 @@
+# --- .NET Artifacts ---
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- SQLite & Data ---
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+# Specifically for your project structure
 FoodSafetyTracker/foodsafety.db
 FoodSafetyTracker/logs/
+
+# --- Environment & Secrets ---
+.env
+.env.*
+appsettings.Development.json
+# Note: Usually you keep appsettings.json as a template but ignore the Dev one
+# if it contains local secrets/passwords.
+
+# --- VS Code & IDE ---
+.vscode/
+!.vscode/launch.json
+.history/
+*.log
+
+# --- OS Specific ---
+.DS_Store
+.directory
