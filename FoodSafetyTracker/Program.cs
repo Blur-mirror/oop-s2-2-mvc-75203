@@ -3,6 +3,7 @@ using Serilog.Events;
 using FoodSafetyTracker.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using FoodSafetyTracker.Middleware;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -21,6 +22,7 @@ try
         .ReadFrom.Services(services)
         .Enrich.FromLogContext()
         .Enrich.WithEnvironmentName()
+        .Enrich.WithProperty("Application", "FoodSafetyTracker")
         .Enrich.WithThreadId()
         .WriteTo.Console()
         .WriteTo.File(
@@ -71,6 +73,9 @@ try
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.UseMiddleware<UserEnrichmentMiddleware>();
+    app.UseSerilogRequestLogging();
 
     app.MapControllerRoute(
         name: "default",
