@@ -3,46 +3,60 @@
     ViewData["Title"] = "Premises";
 }
 
-<h2>Premises</h2>
+<div class="window-title" style="margin-top: 20px;">
+    PREMISES REGISTRY
+    <div class="window-dots">
+        <div class="window-dot">_</div>
+        <div class="window-dot">□</div>
+        <div class="window-dot">×</div>
+    </div>
+</div>
 
 @if (User.IsInRole("Admin"))
 {
-    <a asp-action="Create" class="btn btn-primary mb-3">+ Add Premises</a>
+    <div style="margin-bottom: 16px;">
+        <a asp-action="Create" class="btn btn-primary">+ NEW PREMISES</a>
+    </div>
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Town</th>
-            <th>Risk</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var p in Model)
-        {
+<div class="gov-panel">
+    <div class="gov-panel-header">ALL REGISTERED PREMISES</div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@p.Name</td>
-                <td>@p.Address</td>
-                <td>@p.Town</td>
-                <td>
-                    <span
-                        class="badge bg-@(p.RiskRating == FoodSafetyTracker.Models.RiskRating.High ? "danger" :
-                                                                                                                                     p.RiskRating == FoodSafetyTracker.Models.RiskRating.Medium ? "warning" : "success")">
-                        @p.RiskRating
-                    </span>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-sm btn-info">Details</a>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-danger">Delete</a>
-                    }
-                </td>
+                <th>NAME</th>
+                <th>ADDRESS</th>
+                <th>TOWN</th>
+                <th>RISK</th>
+                <th>ACTIONS</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                var riskClass = p.RiskRating switch
+                {
+                    FoodSafetyTracker.Models.RiskRating.High => "badge-high",
+                    FoodSafetyTracker.Models.RiskRating.Medium => "badge-medium",
+                    _ => "badge-low"
+                };
+                <tr>
+                    <td>@p.Name</td>
+                    <td style="color:#666699;">@p.Address</td>
+                    <td>@p.Town</td>
+                    <td><span class="badge @riskClass">@p.RiskRating.ToString().ToUpper()</span></td>
+                    <td style="white-space:nowrap;">
+                        <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-secondary btn-sm">VIEW</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-primary btn-sm"
+                               style="margin-left:4px;">EDIT</a>
+                            <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-danger  btn-sm"
+                               style="margin-left:4px;">DEL</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

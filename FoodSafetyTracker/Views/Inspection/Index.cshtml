@@ -3,47 +3,69 @@
     ViewData["Title"] = "Inspections";
 }
 
-<h2>All Inspections</h2>
+<div class="window-title" style="margin-top: 20px;">
+    <span>INSPECTION LOG v1.0</span>
+    <div class="window-dots">
+        <div class="window-dot">_</div>
+        <div class="window-dot">□</div>
+        <div class="window-dot">×</div>
+    </div>
+</div>
 
 @if (User.IsInRole("Admin") || User.IsInRole("Inspector"))
 {
-    <a asp-action="Create" class="btn btn-primary mb-3">+ New Inspection</a>
+    <div style="margin-bottom: 16px;">
+        <a asp-action="Create" class="btn btn-primary">+ NEW INSPECTION</a>
+    </div>
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Premises</th>
-            <th>Date</th>
-            <th>Score</th>
-            <th>Outcome</th>
-            <th>Notes</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var i in Model)
-        {
+<div class="gov-panel">
+    <div class="gov-panel-header">DATABASE RECORD: ALL INSPECTIONS</div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@i.Premises.Name</td>
-                <td>@i.InspectionDate.ToString("dd MMM yyyy")</td>
-                <td>@i.Score</td>
-                <td>
-                    <span
-                        class="badge bg-@(i.Outcome == FoodSafetyTracker.Models.InspectionOutcome.Pass ? "success" : "danger")">
-                        @i.Outcome
-                    </span>
-                </td>
-                <td>@i.Notes</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@i.Id" class="btn btn-sm btn-info">Details</a>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-sm btn-warning">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@i.Id" class="btn btn-sm btn-danger">Delete</a>
-                    }
-                </td>
+                <th>PREMISES</th>
+                <th>DATE</th>
+                <th>SCORE</th>
+                <th>OUTCOME</th>
+                <th>NOTES</th>
+                <th>ACTIONS</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                // 1. Determine High-Contrast Score Class (C# Logic)
+                var scoreClass = i.Score >= 70 ? "score-high" : (i.Score >= 50 ? "score-mid" : "score-low");
+
+                // 2. Determine Outcome Badge Class
+                var outcomeClass = i.Outcome == FoodSafetyTracker.Models.InspectionOutcome.Pass
+                    ? "badge-pass" : "badge-fail";
+
+                <tr>
+                    <td><strong>@i.Premises.Name</strong></td>
+                    <td>@i.InspectionDate.ToString("dd MMM yyyy")</td>
+                    <td>
+                        <span class="@scoreClass">
+                            @i.Score / 100
+                        </span>
+                    </td>
+                    <td><span class="badge @outcomeClass">@i.Outcome.ToString().ToUpper()</span></td>
+                    <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color: #333;">
+                        @(i.Notes ?? "—")
+                    </td>
+                    <td style="white-space:nowrap;">
+                        <a asp-action="Details" asp-route-id="@i.Id" class="btn btn-secondary btn-sm">VIEW</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-primary btn-sm"
+                               style="margin-left:4px;">EDIT</a>
+                            <a asp-action="Delete" asp-route-id="@i.Id" class="btn btn-danger  btn-sm"
+                               style="margin-left:4px;">DEL</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

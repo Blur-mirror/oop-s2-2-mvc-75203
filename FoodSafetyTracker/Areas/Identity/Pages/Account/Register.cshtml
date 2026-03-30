@@ -1,0 +1,55 @@
+@page
+@using FoodSafetyTracker.Areas.Identity.Pages.Account
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<div class="window-title" style="margin-top: 20px;">
+    REGISTER NEW ACCOUNT
+    <div class="window-dots">
+        <div class="window-dot">_</div>
+        <div class="window-dot">□</div>
+        <div class="window-dot">×</div>
+    </div>
+</div>
+
+<div style="max-width: 480px; margin: 0 auto;">
+    <div class="gov-panel">
+        <div class="gov-panel-header">CREATE CREDENTIALS</div>
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom:14px;"></div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" type="password" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                <input asp-for="Input.ConfirmPassword" type="password" class="form-control"
+                       autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">REGISTER</button>
+        </form>
+
+        <div style="margin-top: 16px; border-top: 1px solid #808080; padding-top: 14px; font-size: 13px;">
+            <a asp-page="./Login">Already have an account? Login</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
