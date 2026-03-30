@@ -292,3 +292,22 @@ h3 {
   color: #4b4b4b !important;
   font-size: 14px;
 }
+
+/* ── Risk Rating Badges (Matches C# Logic) ────────────────── */
+.badge-high {
+  background: #f8d7da !important; /* Soft Red */
+  color: #721c24 !important; /* Dark Red Text */
+  border: 1px solid #721c24 !important;
+}
+
+.badge-medium {
+  background: #fff3cd !important; /* Soft Yellow */
+  color: #856404 !important; /* Dark Gold Text */
+  border: 1px solid #856404 !important;
+}
+
+.badge-low {
+  background: #d4edda !important; /* Soft Green */
+  color: #155724 !important; /* Dark Green Text */
+  border: 1px solid #155724 !important;
+}

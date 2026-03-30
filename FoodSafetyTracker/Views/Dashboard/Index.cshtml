@@ -12,7 +12,7 @@
     </div>
 </div>
 
-@* ── Filter Bar ─────────────────────────────────────── *@
+@* Filter Bar*@
 <form method="get" asp-action="Index">
     <div class="filter-bar">
         <span class="filter-label">TOWN:</span>
@@ -30,7 +30,7 @@
         <select name="riskRating" class="form-select" style="width:auto; min-width:140px;">
             <option value="">ALL RATINGS</option>
             @foreach (FoodSafetyTracker.Models.RiskRating r in
-                                    Enum.GetValues(typeof(FoodSafetyTracker.Models.RiskRating)))
+                                                            Enum.GetValues(typeof(FoodSafetyTracker.Models.RiskRating)))
             {
                 <option value="@((int)r)" selected="@(Model.SelectedRiskRating == r)">
                     @r.ToString().ToUpper()
@@ -46,7 +46,7 @@
     </div>
 </form>
 
-@* ── Stat Cards ─────────────────────────────────────── *@
+@* Stat Cards *@
 <div class="stat-grid">
     <div class="stat-card">
         <div class="stat-label">Inspections This Month</div>
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-@* ── Recent Failed Inspections ───────────────────────── *@
+@* Recent Failed Inspections *@
 <div class="gov-panel">
     <div class="gov-panel-header">RECENT FAILED INSPECTIONS</div>
     @if (Model.RecentFailedInspections.Any())
@@ -81,17 +81,24 @@
             <tbody>
                 @foreach (var i in Model.RecentFailedInspections)
                 {
+                    @* 1. Define the dynamic CSS classes for this specific row *@
+                    var scoreClass = i.Score >= 70 ? "score-high" : (i.Score >= 50 ? "score-mid" : "score-low");
+
                     var riskClass = i.Premises.RiskRating switch
                     {
                         FoodSafetyTracker.Models.RiskRating.High => "badge-high",
                         FoodSafetyTracker.Models.RiskRating.Medium => "badge-medium",
                         _ => "badge-low"
                     };
+
                     <tr>
                         <td>@i.Premises.Name</td>
                         <td>@i.Premises.Town</td>
                         <td>@i.InspectionDate.ToString("dd MMM yyyy")</td>
-                        <td>@i.Score / 100</td>
+
+                        @* 2. Apply the scoreClass variable here *@
+                        <td><span class="@scoreClass">@i.Score / 100</span></td>
+
                         <td><span class="badge @riskClass">@i.Premises.RiskRating.ToString().ToUpper()</span></td>
                         <td>
                             <a asp-controller="Inspection" asp-action="Details" asp-route-id="@i.Id"
@@ -108,7 +115,7 @@
     }
 </div>
 
-@* ── Overdue Follow-Ups ──────────────────────────────── *@
+@* Overdue Follow-Ups *@
 <div class="gov-panel">
     <div class="gov-panel-header">OVERDUE FOLLOW-UPS</div>
     @if (Model.OverdueFollowUpsList.Any())
@@ -147,7 +154,7 @@
     }
 </div>
 
-@* ── Status Bar ──────────────────────────────────────── *@
+@*Status Bar *@
 <div class="status-bar">
     <span>SYS: ONLINE</span>
     <span>DB: foodsafety.db</span>
@@ -155,7 +162,7 @@
     @if (Model.SelectedTown != null || Model.SelectedRiskRating != null)
     {
         <span>FILTER: @(Model.SelectedTown?.ToUpper() ?? "ALL") / @(Model.SelectedRiskRating?.ToString().ToUpper() ??
-                                "ALL")</span>
+                                                        "ALL")</span>
         }
         <span style="margin-left:auto">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")<span class="cursor"></span></span>
     </div>
